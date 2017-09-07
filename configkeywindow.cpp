@@ -31,10 +31,8 @@ void configKeyWindow::showKeysSlot()
     setting->setIniCodec("UTF8");
     key1=setting->value(QString(KEY_SECTION).append("/").append(KEY_KEY1)).toString();
     key2=setting->value(QString(KEY_SECTION).append("/").append(KEY_KEY2)).toString();
-    if(key1.isEmpty()) key1="1111";
-    if(key2.isEmpty()) key2="1111";
-    ui->lineEditKey1->setText(key1);
-    ui->lineEditKey2->setText(key2);
+    ui->lineEditKey1->setText(QString::number(key1.toInt()));
+    ui->lineEditKey2->setText(QString::number(key2.toInt()));
     delete setting;
 
 

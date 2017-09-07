@@ -2,8 +2,10 @@
 #define CRYPTTOOLS_H
 #include <iostream>
 #include <string>
-//#define C1 52845
-//#define C2 22719
+#include <QDebug>
+
+#define C1_DEFAULT 52845
+#define C2_DEFAULT 22719
 
 class CryptTools
 {
@@ -21,8 +23,8 @@ private:
 
     std::string Decrypt(std::string S, unsigned short Key); // 解密函数
 
-    int C1=1111;
-    int C2=1111;
+    int C1;
+    int C2;
 };
 
 #endif // CRYPTTOOLS_H

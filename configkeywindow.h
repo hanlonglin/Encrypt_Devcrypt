@@ -9,6 +9,9 @@
 #define KEY_KEY1              "key1"
 #define KEY_KEY2              "key2"
 
+#define LAST_OPEN_SECTION     "LAST_OPEN"
+#define LAST_PATH             "last_path"
+
 namespace Ui {
 class configKeyWindow;
 }
@@ -20,6 +23,9 @@ class configKeyWindow : public QWidget
 public:
     explicit configKeyWindow(QWidget *parent = 0);
     ~configKeyWindow();
+
+    QString key1;
+    QString key2;
 
 private:
     Ui::configKeyWindow *ui;

@@ -22,6 +22,67 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>选择文件编码方式</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBoxCode">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <item>
+            <property name="text">
+             <string>LOCAL</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UTF-8</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>GBK</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>GB2312</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ISO 8859-1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>BIG5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>GB18030</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>UTF-16</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
           <number>20</number>

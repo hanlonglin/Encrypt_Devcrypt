@@ -4,9 +4,11 @@
 #include <QMainWindow>
 #include <QFile>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QDebug>
 #include <QMessageBox>
-
+#include <QTextStream>
+#include <QTextCodec>
 
 #include "crypttools.h"
 #include "configkeywindow.h"
@@ -29,6 +31,9 @@ private:
     CryptTools crypt;
     configKeyWindow configKey;
 
+    //编码
+    QTextCodec *textcodec;
+
 private slots:
 
     /*选择加密文件*/
@@ -45,6 +50,9 @@ private slots:
 
     /*设置密匙*/
     void configKeySlot();
+
+    /*选择编码*/
+    void chooseCodeSlot(QString codec);
 
 };
 
