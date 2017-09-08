@@ -9,8 +9,10 @@
 #define KEY_KEY1              "key1"
 #define KEY_KEY2              "key2"
 
-#define LAST_OPEN_SECTION     "LAST_OPEN"
-#define LAST_PATH             "last_path"
+#define GLOBAL_SECTION        "GLOBAL"
+#define LAST_CODE             "last_code"
+#define LAST_OPEN_PATH        "last_open_path"
+#define LAST_SAVE_PATH        "last_save_path"
 
 namespace Ui {
 class configKeyWindow;

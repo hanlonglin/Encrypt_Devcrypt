@@ -40,7 +40,7 @@ void MainWindow::chooseFileSlot()
     //得到最近打开文件的路径
     QSettings *setting=new QSettings(KEY_FILE,QSettings::IniFormat);
     setting->setIniCodec("UTF8");
-    QString lastPath=setting->value(QString(LAST_OPEN_SECTION).append("/").append(LAST_PATH)).toString();
+    QString lastPath=setting->value(QString(GLOBAL_SECTION).append("/").append(LAST_OPEN_PATH)).toString();
     if(lastPath.isEmpty()) lastPath=QDir::currentPath();
 
     QString path=QFileDialog::getOpenFileName(this,"",lastPath);
@@ -48,7 +48,7 @@ void MainWindow::chooseFileSlot()
     ui->lineEditPath->setText(path);
 
     /*将最近打开文件路径保存，方便下次打开*/
-    setting->setValue(QString(LAST_OPEN_SECTION).append("/").append(LAST_PATH),path);
+    setting->setValue(QString(GLOBAL_SECTION).append("/").append(LAST_OPEN_PATH),path);
     delete setting;
 
 
@@ -70,7 +70,7 @@ void MainWindow::encryptSlot()
 
     QString enText=ui->textEditEncrypt->toPlainText();
 
-    QString afterEncrypt=QString::fromStdString(crypt.EnCrypt(enText.toStdString()).data());
+    QString afterEncrypt=QString::fromStdString(crypt.EnCrypt(textcodec->fromUnicode(enText).data()));
 
 
     ui->textEditDecrypt->setText(afterEncrypt);
@@ -100,7 +100,11 @@ void MainWindow::decryptSlot()
 /*输出到文件*/
 void MainWindow::saveToFileSlot()
 {
-    QFileInfo finfo(ui->lineEditPath->text());
+    QString srcDir=ui->lineEditPath->text();
+    if(srcDir.isEmpty())
+        srcDir="test.txt";
+
+    QFileInfo finfo(srcDir);
 
     QString saveTo=QFileDialog::getSaveFileName(this,"",finfo.absolutePath()+"/"+finfo.baseName()+"_crypt."+finfo.suffix());
     if(saveTo.isEmpty()) return ;
@@ -110,9 +114,21 @@ void MainWindow::saveToFileSlot()
         QMessageBox::information(this,"",QString::fromLocal8Bit("打开保存文件失败！"));
         return ;
     }
+    QTextStream out(&file);
+    out.setCodec(textcodec);
+    out<<ui->textEditDecrypt->toPlainText();
 
-    file.write(textcodec->fromUnicode(ui->textEditDecrypt->toPlainText()).data());
+
+    //file.write(textcodec->fromUnicode(ui->textEditDecrypt->toPlainText()).data());
+    //file.write(ui->textEditDecrypt->toPlainText().toStdString().c_str());
     file.close();
+
+    QSettings *setting=new QSettings(KEY_FILE,QSettings::IniFormat);
+    setting->setIniCodec("UTF8");
+    setting->setValue(QString(GLOBAL_SECTION).append("/").append(LAST_SAVE_PATH),saveTo);
+    setting->setValue(QString(GLOBAL_SECTION).append("/").append(LAST_CODE),ui->comboBoxCode->currentText());
+    delete setting;
+
     QMessageBox::information(this,"",QString::fromLocal8Bit("文件保存成功！"));
 }
 
@@ -139,16 +155,12 @@ void MainWindow::chooseCodeSlot(QString codec)
         QMessageBox::information(this,"",QString::fromLocal8Bit("文件读取失败！"));
         return;
     }
-//    QTextStream in(&file);
-//    //QString code_in=ui->comboBoxCode->currentText();
-//    if(codec=="LOCAL")
-//        in.setCodec(QTextCodec::codecForLocale());
-//    else
-//        in.setCodec(codec.toStdString().c_str());
 
-    //qDebug()<<"choose code ,textStream code is:"<<in.codec()->name();
-    QString content=textcodec->toUnicode(file.readAll().data());
-    //QString content=QString::fromLocal8Bit(file.readAll());
+    QTextStream in(&file);
+    in.setCodec(textcodec);
+    //QString content=textcodec->toUnicode(file.readAll().data());
+    QString content=in.readAll();
+
     file.close();
     ui->textEditEncrypt->setText(content);
 }
